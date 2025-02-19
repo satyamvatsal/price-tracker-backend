@@ -93,17 +93,16 @@ router.post("/get-details", authMiddleware, async (req, res) => {
     userAgents[Math.floor(Math.random() * userAgents.length)];
   try {
     console.log(productURL);
-    const { data } = await axios.get("https://www.youtube.com/");
-    console.log(data);
+    const { data } = await axios.get(productURL, {
+      headers: { "User-Agent": randomUserAgent },
+    });
     const $ = cheerio.load(data);
     const currentPrice = $(".a-price-whole").first().text().trim();
     const title = $("#productTitle").text().trim();
     const imageURL = $("#landingImage").attr("src");
     return res.status(200).json({ title, imageURL, currentPrice });
   } catch (err) {
-    if (err.request) console.log("Request Sent");
-    console.log(`Response ${err.response}`);
-    console.log("Message: ", err.message);
+    console.log("Failed to get product details.");
     return res.status(500).json({ error: "Failed to get product details" });
   }
 });
