@@ -40,11 +40,13 @@ const priceTrackerJob = () => {
       const products = await Product.findAll();
       const priceChecks = products.map(async (product) => {
         const response = await fetchProductDetails(product.productURL);
-        const { productName, imageURL, currentPrice } = response;
+        let { productName, imageURL, currentPrice } = response;
         if (!product.imageURL) product.imageURL = imageURL;
         if (!product.productName) product.productName = productName;
         if (currentPrice) {
-          currentPrice = parseFloat(currentPrice.replace(/,/g, ""));
+          currentPrice = parseFloat(
+            currentPrice.replace(/,/g, "").replace(/\.$/, ""),
+          );
           product.currentPrice = currentPrice;
         }
         console.log(`\n${imageURL}\n${productName}\n${currentPrice}\n`);
