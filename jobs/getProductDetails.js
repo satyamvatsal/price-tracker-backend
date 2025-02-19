@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { reset } = require("childprocess");
 
 const fetchProductDetails = async (productURL) => {
   const userAgents = [
@@ -14,9 +15,11 @@ const fetchProductDetails = async (productURL) => {
   const randomUserAgent =
     userAgents[Math.floor(Math.random() * userAgents.length)];
   try {
-    const { data } = await axios.get(productURL, {
+    const response = await axios.get(productURL, {
       headers: { "User-Agent": randomUserAgent },
     });
+    const data = response.data;
+    console.log("Data: ", data);
     const $ = cheerio.load(data);
     const currentPrice = $(".a-price-whole").first().text().trim();
     const productName = $("#productTitle").text().trim();
@@ -24,8 +27,8 @@ const fetchProductDetails = async (productURL) => {
     return { imageURL, productName, currentPrice };
   } catch (err) {
     console.log("error while fetching product details");
+    return {};
   } finally {
-    return null;
   }
 };
 module.exports = fetchProductDetails;

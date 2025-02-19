@@ -34,12 +34,12 @@ async function sendPushNotification(expoPushToken, title, message, url) {
 }
 
 const priceTrackerJob = () => {
-  const job = cron.schedule("*/10 * * * *", async () => {
+  const job = cron.schedule("* * * * *", async () => {
     console.log("Running scheduled price check...");
     try {
       const products = await Product.findAll();
       const priceChecks = products.map(async (product) => {
-        const response = (await fetchProductDetails(product.productURL)) || {};
+        const response = await fetchProductDetails(product.productURL);
         const { productName, imageURL, currentPrice } = response;
         if (!product.imageURL) product.imageURL = imageURL;
         if (!product.productName) product.productName = productName;

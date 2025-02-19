@@ -18,7 +18,7 @@ app.use("/users", userRoutes);
 app.use("/product", productRoutes);
 
 priceTrackerJob();
-const port = 8080;
+const port = 8070;
 sequelize
   .sync({ alter: true })
   .then(() => {

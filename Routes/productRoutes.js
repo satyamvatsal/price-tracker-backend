@@ -13,7 +13,7 @@ router.post("/add", authMiddleware, async (req, res) => {
   try {
     const originalTriggerPrice = triggerPrice;
     const updatedTriggerPrice = triggerPrice;
-    const response = (await fetchProductDetails(productURL)) || {};
+    const response = await fetchProductDetails(productURL);
     const { productName, imageURL, currentPrice } = response;
     const product = await Product.create({
       productURL,
