@@ -72,7 +72,8 @@ const priceTrackerJob = () => {
             console.log(err);
           }
         }
-        await Product.update(product, { where: { id: product.id } });
+        const updatedProduct = await product.save();
+        console.log(updatedProduct);
       });
 
       await Promise.all(priceChecks);
