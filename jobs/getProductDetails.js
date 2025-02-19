@@ -19,7 +19,6 @@ const fetchProductDetails = async (productURL) => {
       headers: { "User-Agent": randomUserAgent },
     });
     const data = response.data;
-    console.log("Data: ", data);
     const $ = cheerio.load(data);
     const currentPrice = $(".a-price-whole").first().text().trim();
     const productName = $("#productTitle").text().trim();
