@@ -7,7 +7,7 @@ const sendMail = require("./mail");
 const { Expo } = require("expo-server-sdk");
 const expo = new Expo();
 const User = require("../models/User");
-const { default: fetchProductDetails } = require("./getProductDetails");
+const { fetchProductDetails } = require("./getProductDetails");
 
 async function sendPushNotification(expoPushToken, title, message, url) {
   if (!Expo.isExpoPushToken(expoPushToken)) {
