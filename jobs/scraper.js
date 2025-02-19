@@ -67,11 +67,12 @@ const priceTrackerJob = () => {
               message,
               product.productURL,
             );
-            await Product.update(product, { where: { id: product.id } });
+            product.updatedTriggerPrice = currentPrice - 1;
           } catch (err) {
             console.log(err);
           }
         }
+        await Product.update(product, { where: { id: product.id } });
       });
 
       await Promise.all(priceChecks);
