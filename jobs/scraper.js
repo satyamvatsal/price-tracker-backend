@@ -7,7 +7,7 @@ const sendMail = require("./mail");
 const { Expo } = require("expo-server-sdk");
 const expo = new Expo();
 const User = require("../models/User");
-const { fetchProductDetails } = require("./getProductDetails");
+const fetchProductDetails = require("./getProductDetails");
 
 async function sendPushNotification(expoPushToken, title, message, url) {
   if (!Expo.isExpoPushToken(expoPushToken)) {
@@ -43,8 +43,10 @@ const priceTrackerJob = () => {
         const { productName, imageURL, currentPrice } = response;
         if (!product.imageURL) product.imageURL = imageURL;
         if (!product.productName) product.productName = productName;
-        product.currentPrice = currentPrice;
-        currentPrice = parseFloat(currentPrice.replace(/,/g, ""));
+        if (currentPrice) {
+          product.currentPrice = currentPrice;
+          currentPrice = parseFloat(currentPrice.replace(/,/g, ""));
+        }
         console.log(`\n${imageURL}\n${productName}\n${currentPrice}\n`);
         if (currentPrice && currentPrice <= product.updatedTriggerPrice) {
           console.log(
