@@ -44,8 +44,8 @@ const priceTrackerJob = () => {
         if (!product.imageURL) product.imageURL = imageURL;
         if (!product.productName) product.productName = productName;
         if (currentPrice) {
-          product.currentPrice = currentPrice;
           currentPrice = parseFloat(currentPrice.replace(/,/g, ""));
+          product.currentPrice = currentPrice;
         }
         console.log(`\n${imageURL}\n${productName}\n${currentPrice}\n`);
         if (currentPrice && currentPrice <= product.updatedTriggerPrice) {
