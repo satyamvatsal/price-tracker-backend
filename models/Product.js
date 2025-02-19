@@ -15,6 +15,24 @@ const Product = sequelize.define("Product", {
       isURL: true,
     },
   },
+  productName: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  imageURL: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    validate: {
+      isURL: true,
+    },
+  },
+  currentPrice: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+    validate: {
+      min: 0,
+    },
+  },
   originalTriggerPrice: {
     type: DataTypes.FLOAT,
     allowNull: false,
