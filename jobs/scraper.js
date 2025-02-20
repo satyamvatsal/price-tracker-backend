@@ -34,7 +34,7 @@ async function sendPushNotification(expoPushToken, title, message, url) {
 }
 
 const priceTrackerJob = () => {
-  const job = cron.schedule("* * * * *", async () => {
+  const job = cron.schedule("*/10 * * * *", async () => {
     console.log("Running scheduled price check...");
     try {
       const products = await Product.findAll();
@@ -43,12 +43,7 @@ const priceTrackerJob = () => {
         let { productName, imageURL, currentPrice } = response;
         if (!product.imageURL) product.imageURL = imageURL;
         if (!product.productName) product.productName = productName;
-        if (currentPrice) {
-          currentPrice = parseFloat(
-            currentPrice.replace(/,/g, "").replace(/\.$/, ""),
-          );
-          product.currentPrice = currentPrice;
-        }
+        if (currentPrice) product.currentPrice = currentPrice;
         console.log(`\n${imageURL}\n${productName}\n${currentPrice}\n`);
         if (currentPrice && currentPrice <= product.updatedTriggerPrice) {
           console.log(
@@ -72,8 +67,8 @@ const priceTrackerJob = () => {
             console.log(err);
           }
         }
-        const updatedProduct = await product.save();
-        console.log(updatedProduct);
+        await product.save();
+        console.log("fetched and saved ");
       });
 
       await Promise.all(priceChecks);

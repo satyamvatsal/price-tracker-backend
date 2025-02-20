@@ -20,9 +20,12 @@ const fetchProductDetails = async (productURL) => {
     });
     const data = response.data;
     const $ = cheerio.load(data);
-    const currentPrice = $(".a-price-whole").first().text().trim();
+    let currentPrice = $(".a-price-whole").first().text().trim();
     const productName = $("#productTitle").text().trim();
     const imageURL = $("#landingImage").attr("src");
+    currentPrice = parseFloat(
+      currentPrice.replace(/,/g, "").replace(/\.$/, ""),
+    );
     return { imageURL, productName, currentPrice };
   } catch (err) {
     console.log("error while fetching product details");

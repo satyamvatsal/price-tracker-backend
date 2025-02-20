@@ -13,18 +13,22 @@ router.post("/add", authMiddleware, async (req, res) => {
   try {
     const originalTriggerPrice = triggerPrice;
     const updatedTriggerPrice = triggerPrice;
-    const response = await fetchProductDetails(productURL);
-    const { productName, imageURL, currentPrice } = response;
     const product = await Product.create({
       productURL,
       originalTriggerPrice,
       updatedTriggerPrice,
-      productName,
-      imageURL,
-      currentPrice,
       createdBy: req.user.id,
     });
     res.status(201).json({ product, message: "Price Trigger added" });
+    const response = await fetchProductDetails(productURL);
+    const { productName, imageURL, currentPrice } = response;
+    if (!product.imageURL) product.imageURL = imageURL;
+    if (!product.productName) product.productName = productName;
+    if (currentPrice) {
+      product.currentPrice = currentPrice;
+    }
+    await product.save();
+    console.log("Add: fetched and saved");
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Error adding product" });
