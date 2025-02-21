@@ -34,7 +34,7 @@ async function sendPushNotification(expoPushToken, title, message, url) {
 }
 
 const priceTrackerJob = () => {
-  const job = cron.schedule("*/10 * * * *", async () => {
+  const job = cron.schedule("* * * * *", async () => {
     console.log("Running scheduled price check...");
     try {
       const products = await Product.findAll();
