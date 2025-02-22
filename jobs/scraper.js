@@ -46,9 +46,6 @@ const priceTrackerJob = () => {
         if (currentPrice) product.currentPrice = currentPrice;
         console.log(`\n${imageURL}\n${productName}\n${currentPrice}\n`);
         if (currentPrice && currentPrice <= product.updatedTriggerPrice) {
-          console.log(
-            `🔔 ALERT: Price for ${product.productName} has dropped to ${currentPrice} (Trigger: ${product.updatedTriggerPrice})`,
-          );
           try {
             const user = await Users.findOne({
               where: { id: product.createdBy },
@@ -63,6 +60,7 @@ const priceTrackerJob = () => {
               product.productURL,
             );
             product.updatedTriggerPrice = currentPrice - 1;
+            console.log(`Notification sent for ${product.productName}`);
           } catch (err) {
             console.log(err);
           }

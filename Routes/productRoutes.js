@@ -57,9 +57,8 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 router.patch("/:id", authMiddleware, async (req, res) => {
-  console.log("patch");
   const id = req.params.id;
-  const { productURL, triggerPrice } = req.body;
+  const { triggerPrice } = req.body;
   try {
     const product = await Product.findOne({
       where: {
@@ -69,9 +68,6 @@ router.patch("/:id", authMiddleware, async (req, res) => {
     });
     if (!product) {
       res.status(401).json({ mesage: "Unauthorized to update" });
-    }
-    if (productURL !== product.productURL) {
-      return res.status(400).json({ error: "Product URL cannot be changed." });
     }
     await Product.update(
       {
