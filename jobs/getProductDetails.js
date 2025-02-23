@@ -19,9 +19,11 @@ const fetchProductDetails = async (productURL) => {
     });
     const data = response.data;
     const $ = cheerio.load(data);
-    let currentPrice = $(".a-price-whole").first().text().trim();
     const productName = $("#productTitle").text().trim();
     const imageURL = $("#landingImage").attr("src");
+    const outOfStock = $("#outOfStock").length > 0;
+    let currentPrice = "nil";
+    if (!outOfStock) currentPrice = $(".a-price-whole").first().text().trim();
     currentPrice = parseFloat(
       currentPrice.replace(/,/g, "").replace(/\.$/, ""),
     );

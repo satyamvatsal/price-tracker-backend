@@ -27,11 +27,8 @@ const Product = sequelize.define("Product", {
     },
   },
   currentPrice: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.TEXT,
     allowNull: true,
-    validate: {
-      min: 0,
-    },
   },
   originalTriggerPrice: {
     type: DataTypes.FLOAT,

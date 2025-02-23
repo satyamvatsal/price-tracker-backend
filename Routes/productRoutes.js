@@ -24,9 +24,7 @@ router.post("/add", authMiddleware, async (req, res) => {
     const { productName, imageURL, currentPrice } = response;
     if (!product.imageURL) product.imageURL = imageURL;
     if (!product.productName) product.productName = productName;
-    if (currentPrice) {
-      product.currentPrice = currentPrice;
-    }
+    product.currentPrice = currentPrice;
     await product.save();
     console.log("Add: fetched and saved");
   } catch (err) {
