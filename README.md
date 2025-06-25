@@ -10,6 +10,3 @@
 - **WebSocket feed** – live updates on new track requests or price drops.
 - **Scheduler** – automated polling every X minutes to check for price changes.
 - **Type‑safe codebase** – full TypeScript on both client, server, and DB layers.
-
-## 🧩 Architecture
-
